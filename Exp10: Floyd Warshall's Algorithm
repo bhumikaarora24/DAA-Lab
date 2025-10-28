@@ -1,0 +1,32 @@
+#include <stdio.h>
+#define INF 99999
+#define MAX_N 20 // Maximum value for N
+
+void floyd(int n, int g[MAX_N][MAX_N]){
+	int d[MAX_N][MAX_N];
+	int i,j,k;
+
+	for(i=0; i<n; i++) for(j=0; j<n; j++) d[i][j]=g[i][j];
+	for(k=0; k<n; k++)
+		for(i=0; i<n; i++) 
+			for(j=0; j<n; j++)
+				if(d[i][k] != INF && d[k][j] != INF && d[i][j]>d[i][k]+d[k][j])
+					d[i][j]=d[i][k]+d[k][j];
+	printf("The following matrix shows the shortest distances between all pairs of the vertices.\n");
+	for(i=0; i<n; i++,puts(""))
+		for(j=0; j<n; j++) printf(d[i][j]==INF?"  INF":" %4d",d[i][j]);
+}
+
+int main(){
+	int n, m, g[MAX_N][MAX_N];
+	printf("Enter the number of vertices : "); scanf("%d",&n);
+	printf("Enter the number of edges : "); scanf("%d",&m);
+	for(int i=0; i<n; i++) for(int j=0; j<n; j++) g[i][j]=(i==j)?0:INF;
+	for(int e=0,u,v,w;e<m;e++){
+		printf("Enter source : "); scanf("%d",&u);
+		printf("Enter destination : "); scanf("%d",&v);
+		printf("Enter weight : "); scanf("%d",&w);
+	if (w<g[u-1][v-1]) g[u-1][v-1]=w;
+	}
+	floyd(n,g);
+}
